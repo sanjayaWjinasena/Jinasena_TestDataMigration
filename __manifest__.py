@@ -1,35 +1,27 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Jinasena : Data : TestDataMigration',
-    'version': '17.0.0.0.2',
+    'version': '17.0.0.0.3',
     'summary': (
-        'Cross-module data patches applied on top of the companion '
-        'modules. Loads AFTER all companion modules so its records '
-        'override incorrect defaults — display names, rule group '
-        'scopes, action names, orphan cleanup. Test-env fixes only; '
-        'never ship to production without review.'
+        'Runtime data migrations for test envs — one-shot patches to '
+        'existing records that a source-code change cannot reach '
+        '(e.g. noupdate=1 records already loaded, or DB-only Studio '
+        'artefacts). Never a home for missing/wrong module data — '
+        'that belongs in the respective source repo.'
     ),
     'description': """
-Jinasena : Data : DataMigration
-================================
+Jinasena : Data : TestDataMigration
+====================================
 
-Companion-module source repos are kept clean. Any *test-env-only* data
-corrections that we discover while smoke-testing installs land here:
+Only for **runtime data migrations** — one-off record fixes on
+existing envs that a companion-module code change cannot apply
+(e.g., ``noupdate="1"`` records that were already loaded, DB-only
+Studio residue, etc.).
 
-* model display name overrides (``<record model="ir.model">`` with new
-  ``name``)
-* record-rule group-scope restorations
-* server-action name renames
-* orphan-record deletions
+If a fix is "the module should have shipped X but didn't", ship X
+from the module's source repo. Do NOT put it here.
 
-Files are organised by target module in ``data/``. Each file starts
-with a comment header stating (a) the model / area it touches,
-(b) the reason for the patch, (c) the RPC verification it was written
-against.
-
-**Load order:** this module depends on every companion module, so
-Odoo's dependency graph guarantees every record referenced here
-exists before we patch it.
+Currently empty — kept as scaffolding for future real migrations.
 """,
     'author': 'Jinasena Agricultural Machinery (Pvt) Ltd.',
     'category': 'Extra Tools',
@@ -38,10 +30,7 @@ exists before we patch it.
         'BugFix-Purchase',
         'BugFix-Studio-Misc',
     ],
-    'data': [
-        'data/purchase_x_purchase_request.xml',
-        'data/purchase_x_purchase_request_defaults.xml',
-    ],
+    'data': [],
     'installable': True,
     'auto_install': False,
     'application': False,
