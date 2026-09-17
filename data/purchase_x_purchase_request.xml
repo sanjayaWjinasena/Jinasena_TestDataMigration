@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Target: x_purchase_request (Purchase Requisition — Inventory)
+  Reason: five gaps found by RPC-comparison vs CDB on 2026-09-17:
+    1. ir.model display name showed raw 'x_purchase_request' (CDB shows
+       'Purchase Request'). Source ir_model_pins.xml has noupdate="1"
+       so cannot be re-loaded on upgrade — override here.
+    2-5. Four Studio-linked server actions displayed the default name
+       'Execute Code' instead of the descriptive Studio names. Ports
+       loaded the correct names in server_actions_gap.xml but the
+       base.automation load path recreates the linked ir.actions.server
+       with a generic name at each install, wiping the display name.
+    6. Orphan sa_f5_* duplicates were ported alongside the definitive
+       records — delete them to avoid confusion.
+    7-8. rule_448 (Import PR Write) and rule_449 (Local PR Write) were
+       ported without their group scopes so they became global AND
+       filters (impossible: type='Import' AND type='Local'), blocking
+       everyone from writing. Restore the group refs to
+       BugFix-Studio-Misc.group_g_purchase_jin_procurement_end_user_*.
+    9. rule_f7_x_purchase_request_jin_multi_company_purchase_request is a
+       duplicate of rule_503_jin_multi_company_purchase_request — delete.
+-->
+<odoo>
+    <data noupdate="0">
+        <record id="BugFix-Purchase.model_x_purchase_request" model="ir.model">
+            <field name="name">Purchase Request</field>
+        </record>
+
+        <record id="BugFix-Purchase.server_action_814_purchase_request_seq_no" model="ir.actions.server">
+            <field name="name">Purchase Request Seq.No</field>
+        </record>
+        <record id="BugFix-Purchase.server_action_836_restrict_delete_in_pr" model="ir.actions.server">
+            <field name="name">Restrict Delete in PR</field>
+        </record>
+        <record id="BugFix-Purchase.server_action_1694_restrict_archive_in_prs" model="ir.actions.server">
+            <field name="name">Restrict Archive in PRs</field>
+        </record>
+        <record id="BugFix-Purchase.server_action_2589_jin_company_id_in_purchase_request" model="ir.actions.server">
+            <field name="name">JIN - Company Id in Purchase Request</field>
+        </record>
+
+        <delete id="BugFix-Purchase.sa_f5_x_purchase_request_purchase_request_seq_no" model="ir.actions.server"/>
+        <delete id="BugFix-Purchase.sa_f5_x_purchase_request_restrict_delete_in_pr" model="ir.actions.server"/>
+        <delete id="BugFix-Purchase.sa_f5_x_purchase_request_restrict_archive_in_prs" model="ir.actions.server"/>
+        <delete id="BugFix-Purchase.sa_f5_x_purchase_request_jin_company_id_in_purchase_request" model="ir.actions.server"/>
+
+        <record id="BugFix-Purchase.rule_448_import_purchase_requests_write" model="ir.rule">
+            <field name="groups" eval="[(6, 0, [ref('BugFix-Studio-Misc.group_g_purchase_jin_procurement_end_user_imports')])]"/>
+        </record>
+        <record id="BugFix-Purchase.rule_449_local_purchase_requests_write" model="ir.rule">
+            <field name="groups" eval="[(6, 0, [ref('BugFix-Studio-Misc.group_g_purchase_jin_procurement_end_user_local')])]"/>
+        </record>
+
+        <delete id="BugFix-Purchase.rule_f7_x_purchase_request_jin_multi_company_purchase_request" model="ir.rule"/>
+    </data>
+</odoo>
