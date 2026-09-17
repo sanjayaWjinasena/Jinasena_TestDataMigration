@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Target: x_purchase_request default field values
+  Reason: three CDB defaults never ported. Without them, a new PR opens
+    with x_studio_status = False, triggering the form modifier
+    readonly="x_studio_status != 'Draft'" (False != 'Draft' == True) →
+    Type / Warehouse / Requested Delivery Date / Requested by fields
+    all lock on the New form so users cannot even create a record.
+
+  Missing on NEW (existed on CDB as ir.default #23, #27, #28):
+    - x_studio_type = 'Local'
+    - x_studio_status = 'Draft'
+    - x_studio_selection_field_yzPk1 (State) = 'Draft'
+-->
+<odoo>
+    <data noupdate="0">
+        <record id="default_x_purchase_request_x_studio_type" model="ir.default">
+            <field name="field_id" search="[('model','=','x_purchase_request'),('name','=','x_studio_type')]"/>
+            <field name="json_value">"Local"</field>
+        </record>
+        <record id="default_x_purchase_request_x_studio_status" model="ir.default">
+            <field name="field_id" search="[('model','=','x_purchase_request'),('name','=','x_studio_status')]"/>
+            <field name="json_value">"Draft"</field>
+        </record>
+        <record id="default_x_purchase_request_x_studio_selection_field_yzPk1" model="ir.default">
+            <field name="field_id" search="[('model','=','x_purchase_request'),('name','=','x_studio_selection_field_yzPk1')]"/>
+            <field name="json_value">"Draft"</field>
+        </record>
+    </data>
+</odoo>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Jinasena : Data : TestDataMigration',
-    'version': '17.0.0.0.1',
+    'version': '17.0.0.0.2',
     'summary': (
         'Cross-module data patches applied on top of the companion '
         'modules. Loads AFTER all companion modules so its records '
@@ -40,6 +40,7 @@ exists before we patch it.
     ],
     'data': [
         'data/purchase_x_purchase_request.xml',
+        'data/purchase_x_purchase_request_defaults.xml',
     ],
     'installable': True,
     'auto_install': False,
