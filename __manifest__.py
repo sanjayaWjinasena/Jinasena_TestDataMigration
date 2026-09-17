@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Jinasena : Data : DataMigration',
+    'name': 'Jinasena : Data : TestDataMigration',
     'version': '17.0.0.0.1',
     'summary': (
         'Cross-module data patches applied on top of the companion '
